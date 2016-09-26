@@ -1,9 +1,10 @@
 module.exports = {
 	entry: {
-		app: "./index.js"
+		kitchensink: "./index.js",
+		slider: ["./src/slider.js"]
 	},
 	output: {
-		path: './public/js/bundle',
+		path: 'bundle',
 		filename: "[name].js"
 	},
 	module: {

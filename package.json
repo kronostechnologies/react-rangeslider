@@ -1,15 +1,15 @@
 {
   "name": "react-rangeslider",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A lightweight react component that acts as a HTML5 input range slider polyfill",
-  "main": "lib/index",
+  "main": "bundle/slider.js",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "webpack --watch",
     "build": "sh ./scripts/build.sh"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/whoisandie/react-rangeslider.git"
+    "url": "https://github.com/kronostechnologies/react-rangeslider.git"
   },
   "keywords": [
     "rangeslider",
