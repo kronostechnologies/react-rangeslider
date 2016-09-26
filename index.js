@@ -1,5 +1,5 @@
 const ReactDOM = require('react-dom');
-const Slider = require('./src/index.js');
+const Slider = require('./src/slider.js');
 const React = require('react');
 const Clone = require('clone');
 
