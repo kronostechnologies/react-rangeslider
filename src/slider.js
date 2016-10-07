@@ -32,7 +32,7 @@ let Slider = React.createClass({
 
 	fill_anchor_range: 20,
 
-	getInitialState: function () {
+	getInitialState() {
 		return {
 			limit: 0,
 			grab: 0
@@ -40,7 +40,7 @@ let Slider = React.createClass({
 	},
 
 	// Add window resize event listener here
-	componentDidMount: function () {
+	componentDidMount() {
 		window.addEventListener('resize', this.handleUpdate);
 		this.handleUpdate();
 
@@ -48,15 +48,15 @@ let Slider = React.createClass({
 	},
 
 	// remove window resize event listener here
-	componentWillUnmount: function () {
+	componentWillUnmount() {
 		window.removeEventListener('resize', this.handleUpdate);
 	},
 
-	showTooltip: function() {
+	showTooltip() {
 		//	insert tooltip here
 	},
 
-	handleUpdate: function () {
+	handleUpdate() {
 		let {orientation} = this.props;
 		let dimension = capitalize(constants.orientation[orientation].dimension);
 		const sliderPos = findDOMNode(this.refs.slider)['offset' + dimension];
@@ -67,12 +67,12 @@ let Slider = React.createClass({
 		});
 	},
 
-	handleStart: function () {
+	handleStart() {
 		document.addEventListener('mousemove', this.handleDrag);
 		document.addEventListener('mouseup', this.handleEnd);
 	},
 
-	handleDrag: function (e) {
+	handleDrag(e) {
 		this.handleNoop(e);
 		let value, {onChange} = this.props;
 		if (!onChange) {
@@ -88,7 +88,7 @@ let Slider = React.createClass({
 		onChange && onChange(value);
 	},
 
-	handleEnd: function (e) {
+	handleEnd(e) {
 		if (this.props.onMouseUp) {
 			let value = this.position(e);
 			this.props.onMouseUp(value);
@@ -98,19 +98,19 @@ let Slider = React.createClass({
 		document.removeEventListener('mouseup', this.handleEnd);
 	},
 
-	handleNoop: function (e) {
+	handleNoop(e) {
 		e.stopPropagation();
 		e.preventDefault();
 	},
 
-	handleSliderMouseUp: function (e) {
+	handleSliderMouseUp(e) {
 		if (this.props.onSliderMouseUp) {
 			let value = this.position(e);
 			this.props.onSliderMouseUp(value);
 		}
 	},
 
-	getPositionFromValue: function (value) {
+	getPositionFromValue(value) {
 		let percentage, pos;
 		let {limit} = this.state;
 		let {min, max} = this.props;
@@ -120,7 +120,7 @@ let Slider = React.createClass({
 		return pos;
 	},
 
-	getValueFromPosition: function (pos) {
+	getValueFromPosition(pos) {
 		let percentage, value;
 		let {limit} = this.state;
 		let {orientation, min, max, step} = this.props;
@@ -135,7 +135,7 @@ let Slider = React.createClass({
 		return value;
 	},
 
-	position: function (e) {
+	position(e) {
 		let pos, value, {grab} = this.state;
 		let {orientation} = this.props;
 		const node = findDOMNode(this.refs.slider);
@@ -152,7 +152,7 @@ let Slider = React.createClass({
 		return value;
 	},
 
-	coordinates: function (pos) {
+	coordinates(pos) {
 		let value, fillPos, handlePos;
 		let {limit, grab} = this.state;
 		let {orientation} = this.props;
@@ -174,8 +174,8 @@ let Slider = React.createClass({
 		let fillReturn = 0;
 		if (this.props.fill > 0 && this.props.fill < this.props.max) {
 			fillReturn = this.getPositionFromValue(this.props.fill) + grab;
-		} else if (this.props.fill == this.props.max) {
-			fillReturn = this.getPositionFromValue(this.props.fill) + ( 2 * grab);
+		} else if (this.props.fill >= this.props.max) {
+			fillReturn = this.getPositionFromValue(this.props.max) + ( 2 * grab);
 		}
 
 		return {
@@ -184,7 +184,7 @@ let Slider = React.createClass({
 		};
 	},
 
-	render: function () {
+	render() {
 		let dimension, direction, position, coords, fillStyle, handleStyle;
 		let {value, orientation, className} = this.props;
 
@@ -218,7 +218,8 @@ let Slider = React.createClass({
 					onMouseDown={this.props.disabled ? function(){} :this.handleStart}
 					onTouchMove={this.props.disabled ? function(){} :this.handleDrag}
 					onClick={this.props.disabled ? function(){} :this.handleNoop}
-					style={handleStyle}/>
+					style={handleStyle}
+				/>
 			</div>
 		);
 	}

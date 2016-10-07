@@ -1,11 +1,12 @@
 module.exports = {
 	entry: {
-		kitchensink: "./index.js",
-		slider: ["./src/slider.js"]
+		slider: "./src/slider.js"
 	},
 	output: {
 		path: 'bundle',
-		filename: "[name].js"
+		filename: "[name].js",
+		library: "ReactRangeslider",
+		libraryTarget: "umd"
 	},
 	module: {
 		loaders: [{
@@ -13,5 +14,15 @@ module.exports = {
 			loader: 'babel-loader',
 			exclude: /node_modules/
 		}]
-	}
+	},
+	externals: [
+		{
+			'react': {
+				root: 'React',
+				commonjs2: 'react',
+				commonjs: 'react',
+				amd: 'react'
+			}
+		}
+	]
 };

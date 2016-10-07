@@ -2,15 +2,8 @@
 .gitignore
 .babelrc
 
-server.js
 webpack.config.js
-index.html
-index.js
-bundle/kitchensink.js
 
-demo
 scripts
 src
-tests
-css
-
+www
