@@ -151,10 +151,11 @@ return /******/ (function(modules) { // webpackBootstrap
 			onChange && onChange(value);
 		},
 
+		handleClick(e) {},
+
 		handleEnd(e) {
-			if (this.props.onMouseUp) {
-				let value = this.position(e);
-				this.props.onMouseUp(value);
+			if (this.props.onHandleRelease) {
+				this.props.onHandleRelease();
 			}
 
 			document.removeEventListener('mousemove', this.handleDrag);
@@ -164,13 +165,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		handleNoop(e) {
 			e.stopPropagation();
 			e.preventDefault();
-		},
-
-		handleSliderMouseUp(e) {
-			if (this.props.onSliderMouseUp) {
-				let value = this.position(e);
-				this.props.onSliderMouseUp(value);
-			}
 		},
 
 		getPositionFromValue(value) {
@@ -267,7 +261,6 @@ return /******/ (function(modules) { // webpackBootstrap
 					className: cx('rangeslider ', 'rangeslider-' + orientation, className),
 					onMouseDown: this.props.disabled ? function () {} : this.handleDrag,
 					onClick: this.props.disabled ? function () {} : this.handleNoop,
-					onMouseUp: this.props.disabled ? function () {} : this.handleSliderMouseUp,
 					disabled: this.props.disabled
 				},
 				React.createElement('div', {
@@ -294,9 +287,10 @@ return /******/ (function(modules) { // webpackBootstrap
 		step: PropTypes.number,
 		value: PropTypes.number,
 		orientation: PropTypes.string,
-		onChange: PropTypes.func,
 		className: PropTypes.string,
-		disabled: PropTypes.bool
+		disabled: PropTypes.bool,
+		onHandleRelease: PropTypes.func,
+		onChange: PropTypes.func
 	};
 
 	Slider.defaultProps = {

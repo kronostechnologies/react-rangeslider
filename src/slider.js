@@ -88,10 +88,13 @@ let Slider = React.createClass({
 		onChange && onChange(value);
 	},
 
+	handleClick(e) {
+
+	},
+
 	handleEnd(e) {
-		if (this.props.onMouseUp) {
-			let value = this.position(e);
-			this.props.onMouseUp(value);
+		if (this.props.onHandleRelease) {
+			this.props.onHandleRelease();
 		}
 
 		document.removeEventListener('mousemove', this.handleDrag);
@@ -101,13 +104,6 @@ let Slider = React.createClass({
 	handleNoop(e) {
 		e.stopPropagation();
 		e.preventDefault();
-	},
-
-	handleSliderMouseUp(e) {
-		if (this.props.onSliderMouseUp) {
-			let value = this.position(e);
-			this.props.onSliderMouseUp(value);
-		}
 	},
 
 	getPositionFromValue(value) {
@@ -203,7 +199,6 @@ let Slider = React.createClass({
 				className={cx('rangeslider ', 'rangeslider-' + orientation, className)}
 				onMouseDown={this.props.disabled ? function(){} : this.handleDrag}
 				onClick={this.props.disabled ? function(){} :this.handleNoop}
-				onMouseUp={this.props.disabled ? function(){} :this.handleSliderMouseUp}
 				disabled={this.props.disabled}
 			>
 				<div
@@ -231,9 +226,10 @@ Slider.propTypes = {
 	step: PropTypes.number,
 	value: PropTypes.number,
 	orientation: PropTypes.string,
-	onChange: PropTypes.func,
 	className: PropTypes.string,
-	disabled: PropTypes.bool
+	disabled: PropTypes.bool,
+	onHandleRelease: PropTypes.func,
+	onChange: PropTypes.func,
 };
 
 Slider.defaultProps = {
@@ -242,7 +238,7 @@ Slider.defaultProps = {
 	step: 1,
 	value: 0,
 	orientation: 'horizontal',
-	disabled: false
+	disabled: false,
 };
 
 module.exports = Slider;
