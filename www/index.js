@@ -21,27 +21,28 @@ const KitchenSink = React.createClass({
 				value: 465,
 				max: 1000,
 				min:0,
-				onChange: this.onChange.bind(this, "large_slider_with_fill")
+				onChange: this.onChange.bind(this, "large_slider_with_fill"),
 			},
 			large_slider_with_sticky_fill: {
 				value: 355,
 				fill: 200,
 				max: 1000,
 				min: 0,
-				onChange: this.onChange.bind(this, "large_slider_with_sticky_fill")
+				onChange: this.onChange.bind(this, "large_slider_with_sticky_fill"),
+				onHandleRelease: function(){},
 			},
 			small_slider_with_fill: {
 				value: 355,
 				max: 1000,
 				min: 0,
-				onChange: this.onChange.bind(this, "small_slider_with_fill")
+				onChange: this.onChange.bind(this, "small_slider_with_fill"),
 			},
 			small_slider_with_sticky_fill: {
 				value: 355,
 				max: 1000,
 				fill: 200,
 				min: 0,
-				onChange: this.onChange.bind(this, "small_slider_with_sticky_fill")
+				onChange: this.onChange.bind(this, "small_slider_with_sticky_fill"),
 			}
 		};
 	},
