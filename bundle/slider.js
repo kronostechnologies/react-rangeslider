@@ -54,10 +54,14 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const cx = __webpack_require__(1);
-	const findDOMNode = __webpack_require__(2).findDOMNode;
-	const React = __webpack_require__(167);
-	const PropTypes = __webpack_require__(167).PropTypes;
+	'use strict';
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	var cx = __webpack_require__(1);
+	var findDOMNode = __webpack_require__(2).findDOMNode;
+	var React = __webpack_require__(167);
+	var PropTypes = __webpack_require__(167).PropTypes;
 
 	function capitalize(str) {
 		return str.charAt(0).toUpperCase() + str.substr(1);
@@ -73,7 +77,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		return pos;
 	}
 
-	const constants = {
+	var constants = {
 		orientation: {
 			horizontal: {
 				dimension: 'width',
@@ -88,56 +92,55 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 	};
 
-	let Slider = React.createClass({
+	var Slider = React.createClass({
 		displayName: 'Slider',
 
 
 		fill_anchor_range: 20,
 
-		getInitialState() {
+		getInitialState: function getInitialState() {
 			return {
 				limit: 0,
 				grab: 0
 			};
 		},
 
+
 		// Add window resize event listener here
-		componentDidMount() {
+		componentDidMount: function componentDidMount() {
 			window.addEventListener('resize', this.handleUpdate);
 			this.handleUpdate();
 
 			this.fill_anchor_range = this.props.max * 0.017;
 		},
 
+
 		// remove window resize event listener here
-		componentWillUnmount() {
+		componentWillUnmount: function componentWillUnmount() {
 			window.removeEventListener('resize', this.handleUpdate);
 		},
-
-		showTooltip() {
+		showTooltip: function showTooltip() {
 			//	insert tooltip here
 		},
+		handleUpdate: function handleUpdate() {
+			var orientation = this.props.orientation;
 
-		handleUpdate() {
-			let { orientation } = this.props;
-			let dimension = capitalize(constants.orientation[orientation].dimension);
-			const sliderPos = findDOMNode(this.refs.slider)['offset' + dimension];
-			const handlePos = findDOMNode(this.refs.handle)['offset' + dimension];
+			var dimension = capitalize(constants.orientation[orientation].dimension);
+			var sliderPos = findDOMNode(this.refs.slider)['offset' + dimension];
+			var handlePos = findDOMNode(this.refs.handle)['offset' + dimension];
 			this.setState({
 				limit: sliderPos - handlePos,
 				grab: handlePos / 2
 			});
 		},
-
-		handleStart() {
+		handleStart: function handleStart() {
 			document.addEventListener('mousemove', this.handleDrag);
 			document.addEventListener('mouseup', this.handleEnd);
 		},
-
-		handleDrag(e) {
+		handleDrag: function handleDrag(e) {
 			this.handleNoop(e);
-			let value,
-			    { onChange } = this.props;
+			var value = void 0;var onChange = this.props.onChange;
+
 			if (!onChange) {
 				console.warn('No onChange was specified for selected slider.');
 			}
@@ -150,8 +153,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			onChange && onChange(value);
 		},
-
-		handleEnd(e) {
+		handleEnd: function handleEnd(e) {
 			if (this.props.onHandleRelease) {
 				this.props.onHandleRelease();
 			}
@@ -159,26 +161,33 @@ return /******/ (function(modules) { // webpackBootstrap
 			document.removeEventListener('mousemove', this.handleDrag);
 			document.removeEventListener('mouseup', this.handleEnd);
 		},
-
-		handleNoop(e) {
+		handleNoop: function handleNoop(e) {
 			e.stopPropagation();
 			e.preventDefault();
 		},
+		getPositionFromValue: function getPositionFromValue(value) {
+			var percentage = void 0,
+			    pos = void 0;
+			var limit = this.state.limit;
+			var _props = this.props;
+			var min = _props.min;
+			var max = _props.max;
 
-		getPositionFromValue(value) {
-			let percentage, pos;
-			let { limit } = this.state;
-			let { min, max } = this.props;
 			percentage = (value - min) / (max - min);
 			pos = Math.round(percentage * limit);
 
 			return pos;
 		},
+		getValueFromPosition: function getValueFromPosition(pos) {
+			var percentage = void 0,
+			    value = void 0;
+			var limit = this.state.limit;
+			var _props2 = this.props;
+			var orientation = _props2.orientation;
+			var min = _props2.min;
+			var max = _props2.max;
+			var step = _props2.step;
 
-		getValueFromPosition(pos) {
-			let percentage, value;
-			let { limit } = this.state;
-			let { orientation, min, max, step } = this.props;
 			percentage = maxmin(pos, 0, limit) / (limit || 1);
 
 			if (orientation === 'horizontal') {
@@ -189,28 +198,30 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			return value;
 		},
+		position: function position(e) {
+			var pos = void 0;var value = void 0;var grab = this.state.grab;
+			var orientation = this.props.orientation;
 
-		position(e) {
-			let pos,
-			    value,
-			    { grab } = this.state;
-			let { orientation } = this.props;
-			const node = findDOMNode(this.refs.slider);
-			const coordinateStyle = constants.orientation[orientation].coordinate;
-			const directionStyle = constants.orientation[orientation].direction;
-			const coordinate = !e.touches ? e['client' + capitalize(coordinateStyle)] : e.touches[0]['client' + capitalize(coordinateStyle)];
-			const direction = node.getBoundingClientRect()[directionStyle];
+			var node = findDOMNode(this.refs.slider);
+			var coordinateStyle = constants.orientation[orientation].coordinate;
+			var directionStyle = constants.orientation[orientation].direction;
+			var coordinate = !e.touches ? e['client' + capitalize(coordinateStyle)] : e.touches[0]['client' + capitalize(coordinateStyle)];
+			var direction = node.getBoundingClientRect()[directionStyle];
 
 			pos = coordinate - direction - grab;
 			value = this.getValueFromPosition(pos);
 
 			return value;
 		},
+		coordinates: function coordinates(pos) {
+			var value = void 0,
+			    fillPos = void 0,
+			    handlePos = void 0;
+			var _state = this.state;
+			var limit = _state.limit;
+			var grab = _state.grab;
+			var orientation = this.props.orientation;
 
-		coordinates(pos) {
-			let value, fillPos, handlePos;
-			let { limit, grab } = this.state;
-			let { orientation } = this.props;
 
 			value = this.getValueFromPosition(pos);
 			handlePos = this.getPositionFromValue(value);
@@ -221,7 +232,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				fillPos = limit - handlePos + grab;
 			}
 
-			let fillReturn = 0;
+			var fillReturn = 0;
 			if (this.props.fill > 0 && this.props.fill < this.props.max) {
 				fillReturn = this.getPositionFromValue(this.props.fill) + grab;
 			} else if (this.props.fill >= this.props.max) {
@@ -233,10 +244,18 @@ return /******/ (function(modules) { // webpackBootstrap
 				handle: handlePos
 			};
 		},
+		render: function render() {
+			var dimension = void 0,
+			    direction = void 0,
+			    position = void 0,
+			    coords = void 0,
+			    fillStyle = void 0,
+			    handleStyle = void 0;
+			var _props3 = this.props;
+			var value = _props3.value;
+			var orientation = _props3.orientation;
+			var className = _props3.className;
 
-		render() {
-			let dimension, direction, position, coords, fillStyle, handleStyle;
-			let { value, orientation, className } = this.props;
 
 			dimension = constants.orientation[orientation].dimension;
 			direction = constants.orientation[orientation].direction;
@@ -244,8 +263,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			position = this.getPositionFromValue(value);
 			coords = this.coordinates(position);
 
-			fillStyle = { [dimension]: `${ coords.fill }px` };
-			handleStyle = { [direction]: `${ coords.handle }px` };
+			fillStyle = _defineProperty({}, dimension, coords.fill + 'px');
+			handleStyle = _defineProperty({}, direction, coords.handle + 'px');
 
 			return React.createElement(
 				'div',
