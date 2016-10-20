@@ -1,3 +1,5 @@
+const webpack = require('webpack');
+
 module.exports = {
 	entry: {
 		slider: "./src/slider.js"
@@ -24,5 +26,15 @@ module.exports = {
 				amd: 'react'
 			}
 		}
+	],
+	plugins: [
+		new webpack.DefinePlugin({
+			"process.env": {
+				// This has effect on the react lib size
+				"NODE_ENV": JSON.stringify("production")
+			}
+		}),
+		new webpack.optimize.DedupePlugin(),
+		new webpack.optimize.UglifyJsPlugin()
 	]
 };
