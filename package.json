@@ -3,9 +3,10 @@
   "version": "1.2.1",
   "description": "A lightweight react component that acts as a HTML5 input range slider polyfill",
   "main": "bundle/slider.js",
+  "private": true,
   "scripts": {
     "dev": "webpack --watch",
-    "build": "sh ./scripts/build.sh"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,8 @@
     "eslint-plugin-import": "1.14.0",
     "eslint-plugin-jsx-a11y": "2.1.0",
     "eslint-plugin-react": "6.1.2",
+    "react": "15.3.1",
+    "react-dom": "15.3.1",
     "webpack": "1.13.0"
   },
   "dependencies": {

@@ -8,7 +8,9 @@ module.exports = {
 		path: 'bundle',
 		filename: "[name].js",
 		library: "ReactRangeslider",
-		libraryTarget: "umd"
+		libraryTarget: "umd",
+		publicPath: '/bundle/',
+        umdNamedDefine: true
 	},
 	module: {
 		loaders: [{
@@ -24,6 +26,12 @@ module.exports = {
 				commonjs2: 'react',
 				commonjs: 'react',
 				amd: 'react'
+			},
+			"react-dom": {
+				commonjs: "react-dom",
+				commonjs2: "react-dom",
+				amd: "ReactDOM",
+				root: "ReactDOM"
 			}
 		}
 	],
