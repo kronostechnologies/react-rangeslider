@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "webpack --watch",
-    "install": "sh ./scripts/build.sh"
+    "install": "webpack"
   },
   "repository": {
     "type": "git",

@@ -1194,8 +1194,8 @@ convert-source-map@^1.1.0, convert-source-map@^1.5.0:
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-1.5.1.tgz#b8278097b9bc229365de5c62cf5fcaed8b5599e5"
 
 core-js@^2.4.0, core-js@^2.5.0:
-  version "2.5.3"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.3.tgz#8acc38345824f16d8365b7c9b4259168e8ed603e"
+  version "2.5.4"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.4.tgz#f2c8bf181f2a80b92f360121429ce63a2f0aeae0"
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -1352,8 +1352,8 @@ error-ex@^1.2.0:
     is-arrayish "^0.2.1"
 
 es5-ext@^0.10.14, es5-ext@^0.10.35, es5-ext@^0.10.9, es5-ext@~0.10.14:
-  version "0.10.41"
-  resolved "https://registry.yarnpkg.com/es5-ext/-/es5-ext-0.10.41.tgz#bab3e982d750f0112f0cb9e6abed72c59eb33eb2"
+  version "0.10.42"
+  resolved "https://registry.yarnpkg.com/es5-ext/-/es5-ext-0.10.42.tgz#8c07dd33af04d5dcd1310b5cef13bea63a89ba8d"
   dependencies:
     es6-iterator "~2.0.3"
     es6-symbol "~3.1.1"
