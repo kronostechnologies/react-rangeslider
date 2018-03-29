@@ -3,9 +3,10 @@
   "version": "1.2.1",
   "description": "A lightweight react component that acts as a HTML5 input range slider polyfill",
   "main": "bundle/slider.js",
+  "private": true,
   "scripts": {
     "dev": "webpack --watch",
-    "build": "sh ./scripts/build.sh"
+    "install": "sh ./scripts/build.sh"
   },
   "repository": {
     "type": "git",
