@@ -29,7 +29,6 @@ const constants = {
 };
 
 let Slider = React.createClass({
-
 	fill_anchor_range: 20,
 
 	getInitialState() {
@@ -59,8 +58,8 @@ let Slider = React.createClass({
 	handleUpdate() {
 		let {orientation} = this.props;
 		let dimension = capitalize(constants.orientation[orientation].dimension);
-		const sliderPos = findDOMNode(this.refs.slider)['offset' + dimension];
-		const handlePos = findDOMNode(this.refs.handle)['offset' + dimension];
+		const sliderPos = findDOMNode(this.slider)['offset' + dimension];
+		const handlePos = findDOMNode(this.handle)['offset' + dimension];
 		this.setState({
 			limit: sliderPos - handlePos,
 			grab: handlePos / 2,
@@ -130,7 +129,7 @@ let Slider = React.createClass({
 	position(e) {
 		let pos, value, {grab} = this.state;
 		let {orientation} = this.props;
-		const node = findDOMNode(this.refs.slider);
+		const node = findDOMNode(this.slider);
 		const coordinateStyle = constants.orientation[orientation].coordinate;
 		const directionStyle = constants.orientation[orientation].direction;
 		const coordinate = !e.touches
@@ -186,20 +185,20 @@ let Slider = React.createClass({
 
 		return (
 			<div
-				ref="slider"
+				ref={slider => (this.slider = slider)}
 				className={cx('rangeslider ', 'rangeslider-' + orientation, className)}
 				onMouseDown={this.props.disabled ? function(){} : this.handleDrag}
 				onClick={this.props.disabled ? function(){} :this.props.onClick}
 				disabled={this.props.disabled}
 			>
 				<div
-					ref="fill"
+					ref={fill => (this.fill = fill)}
 					className="rangeslider__fill"
 					style={fillStyle}
 					onMouseOver={this.showTooltip}
 				/>
 				<div
-					ref="handle"
+					ref={handle => (this.handle = handle)}
 					className="rangeslider__handle"
 					onMouseDown={this.props.disabled ? function(){} :this.handleStart}
 					onTouchMove={this.props.disabled ? function(){} :this.handleDrag}
