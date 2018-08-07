@@ -1,21 +1,17 @@
-const ReactDOM = require('react-dom');
-const Slider = require('../src/slider.js');
-const React = require('react');
-const clone = require('clone');
+import ReactDOM from 'react-dom';
+import Slider from '../src/slider';
+import React from 'react';
+import clone from 'clone';
 
-const Header = require('react-bootstrap').PageHeader;
-const Panel = require('react-bootstrap').Panel;
-const Label = require('react-bootstrap').Label;
-const Form = require('react-bootstrap').Form;
-const FormControl = require('react-bootstrap').FormControl;
-const ControlLabel = require('react-bootstrap').ControlLabel;
+import { PageHeader as Header, Panel, Label, Form, FormControl, ControlLabel } from 'react-bootstrap';
 
 // Bootstrap reference: https://react-bootstrap.github.io/components.html
 
-const KitchenSink = React.createClass({
-
-	getInitialState() {
-		return {
+class KitchenSink extends React.Component {
+	constructor(props) {
+		super(props);
+		
+		this.state = {
 			selected_slider: 'large_slider_with_sticky_fill',
 			large_slider_with_fill: {
 				value: 465,
@@ -45,7 +41,7 @@ const KitchenSink = React.createClass({
 				onChange: this.onChange.bind(this, "small_slider_with_sticky_fill"),
 			}
 		};
-	},
+	}
 
 	getSlidersNames() {
 		return [
@@ -53,25 +49,25 @@ const KitchenSink = React.createClass({
 			'large_slider_with_sticky_fill',
 			'small_slider_with_fill',
 			'small_slider_with_sticky_fill'
-		]
-	},
+		];
+	}
 
 	onChange(slider_name, e) {
 		let value = e;
 		let new_state = clone(this.state);
 		new_state[slider_name].value = e;
 		this.setState(new_state);
-	},
+	}
 
 	selectSlider(event) {
 		this.setState({ selected_slider: event.target.value });
-	},
+	}
 
 	editFill(event) {
 		const obj = clone(this.state);
 		obj[this.state.selected_slider].fill = event.target.value;
 		this.setState(obj)
-	},
+	}
 
 	render() {
 		return (
@@ -112,13 +108,11 @@ const KitchenSink = React.createClass({
 			</div>
 		);
 	}
-});
+}
 
 (function(){
 	ReactDOM.render(
-		React.createElement(
-			KitchenSink
-		),
+		<KitchenSink />,
 		document.getElementById('mount')
 	);
 })();

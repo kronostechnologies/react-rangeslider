@@ -1,7 +1,7 @@
-const cx = require('classnames');
-const findDOMNode = require('react-dom').findDOMNode;
-const React = require('react');
-const PropTypes = require('react').PropTypes;
+import cx from 'classnames';
+import { findDOMNode } from 'react-dom';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 function capitalize(str) {
 	return str.charAt(0).toUpperCase() + str.substr(1);
@@ -28,35 +28,40 @@ const constants = {
 	}
 };
 
-let Slider = React.createClass({
-	fill_anchor_range: 20,
+class Slider extends React.Component {
+	constructor(props) {
+		super(props);
 
-	getInitialState() {
-		return {
+		this.fill_anchor_range = 20;
+
+		this.state = {
 			limit: 0,
 			grab: 0
 		};
-	},
+
+		this.handleDrag = this.handleDrag.bind(this);
+		this.handleEnd = this.handleEnd.bind(this);
+	}
 
 	// Add window resize event listener here
 	componentDidMount() {
-		window.addEventListener('resize', this.handleUpdate);
+		window.addEventListener('resize', e => this.handleUpdate(e));
 		this.handleUpdate();
 
 		this.fill_anchor_range = this.props.max * 0.017;
-	},
+	}
 
 	// remove window resize event listener here
 	componentWillUnmount() {
-		window.removeEventListener('resize', this.handleUpdate);
-	},
+		window.removeEventListener('resize', e => this.handleUpdate(e));
+	}
 
 	showTooltip() {
-		//	insert tooltip here
-	},
+		// insert tooltip here
+	}
 
 	handleUpdate() {
-		let {orientation} = this.props;
+		let { orientation } = this.props;
 		let dimension = capitalize(constants.orientation[orientation].dimension);
 		const sliderPos = findDOMNode(this.slider)['offset' + dimension];
 		const handlePos = findDOMNode(this.handle)['offset' + dimension];
@@ -64,12 +69,12 @@ let Slider = React.createClass({
 			limit: sliderPos - handlePos,
 			grab: handlePos / 2,
 		});
-	},
+	}
 
 	handleStart() {
 		document.addEventListener('mousemove', this.handleDrag);
 		document.addEventListener('mouseup', this.handleEnd);
-	},
+	}
 
 	handleDrag(e) {
 		this.handleNoop(e);
@@ -85,7 +90,7 @@ let Slider = React.createClass({
 		}
 
 		onChange && onChange(value);
-	},
+	}
 
 	handleEnd(e) {
 		if (this.props.onHandleRelease) {
@@ -94,27 +99,27 @@ let Slider = React.createClass({
 
 		document.removeEventListener('mousemove', this.handleDrag);
 		document.removeEventListener('mouseup', this.handleEnd);
-	},
+	}
 
 	handleNoop(e) {
 		e.stopPropagation();
 		e.preventDefault();
-	},
+	}
 
 	getPositionFromValue(value) {
 		let percentage, pos;
-		let {limit} = this.state;
-		let {min, max} = this.props;
+		let { limit } = this.state;
+		let { min, max } = this.props;
 		percentage = (value - min) / (max - min);
 		pos = Math.round(percentage * limit);
 
 		return pos;
-	},
+	}
 
 	getValueFromPosition(pos) {
 		let percentage, value;
-		let {limit} = this.state;
-		let {orientation, min, max, step} = this.props;
+		let { limit } = this.state;
+		let { orientation, min, max, step } = this.props;
 		percentage = (maxmin(pos, 0, limit) / (limit || 1));
 
 		if (orientation === 'horizontal') {
@@ -124,11 +129,11 @@ let Slider = React.createClass({
 		}
 
 		return value;
-	},
+	}
 
 	position(e) {
-		let pos, value, {grab} = this.state;
-		let {orientation} = this.props;
+		let pos, value, { grab } = this.state;
+		let { orientation } = this.props;
 		const node = findDOMNode(this.slider);
 		const coordinateStyle = constants.orientation[orientation].coordinate;
 		const directionStyle = constants.orientation[orientation].direction;
@@ -141,12 +146,12 @@ let Slider = React.createClass({
 		value = this.getValueFromPosition(pos);
 
 		return value;
-	},
+	}
 
 	coordinates(pos) {
 		let value, fillPos, handlePos;
-		let {limit, grab} = this.state;
-		let {orientation} = this.props;
+		let { limit, grab } = this.state;
+		let { orientation } = this.props;
 
 		value = this.getValueFromPosition(pos);
 		handlePos = this.getPositionFromValue(value);
@@ -160,7 +165,8 @@ let Slider = React.createClass({
 		let fillReturn = 0;
 		if (this.props.fill > 0 && this.props.fill < this.props.max) {
 			fillReturn = this.getPositionFromValue(this.props.fill) + grab;
-		} else if (this.props.fill >= this.props.max) {
+		}
+		else if (this.props.fill >= this.props.max) {
 			fillReturn = this.getPositionFromValue(this.props.max) + ( 2 * grab);
 		}
 
@@ -168,7 +174,7 @@ let Slider = React.createClass({
 			fill: (this.props.fill >= 0) ? (fillReturn) : fillPos,
 			handle: handlePos,
 		};
-	},
+	}
 
 	render() {
 		let dimension, direction, position, coords, fillStyle, handleStyle;
@@ -187,28 +193,28 @@ let Slider = React.createClass({
 			<div
 				ref={slider => (this.slider = slider)}
 				className={cx('rangeslider ', 'rangeslider-' + orientation, className)}
-				onMouseDown={this.props.disabled ? function(){} : this.handleDrag}
-				onClick={this.props.disabled ? function(){} :this.props.onClick}
+				onMouseDown={this.props.disabled ? function(){} : e => this.handleDrag(e)}
+				onClick={this.props.disabled ? function(){} : e => this.props.onClick(e)}
 				disabled={this.props.disabled}
 			>
 				<div
 					ref={fill => (this.fill = fill)}
 					className="rangeslider__fill"
 					style={fillStyle}
-					onMouseOver={this.showTooltip}
+					onMouseOver={e => this.showTooltip(e)}
 				/>
 				<div
 					ref={handle => (this.handle = handle)}
 					className="rangeslider__handle"
-					onMouseDown={this.props.disabled ? function(){} :this.handleStart}
-					onTouchMove={this.props.disabled ? function(){} :this.handleDrag}
-					onClick={this.props.disabled ? function(){} :this.handleNoop}
+					onMouseDown={this.props.disabled ? () => {} : e => this.handleStart(e)}
+					onTouchMove={this.props.disabled ? () => {} : e => this.handleDrag(e)}
+					onClick={this.props.disabled ? () => {} : e => this.handleNoop(e)}
 					style={handleStyle}
 				/>
 			</div>
 		);
 	}
-});
+}
 
 Slider.propTypes = {
 	min: PropTypes.number,
@@ -220,6 +226,7 @@ Slider.propTypes = {
 	disabled: PropTypes.bool,
 	onHandleRelease: PropTypes.func,
 	onChange: PropTypes.func,
+	onClick: PropTypes.func,
 };
 
 Slider.defaultProps = {
@@ -229,6 +236,7 @@ Slider.defaultProps = {
 	value: 0,
 	orientation: 'horizontal',
 	disabled: false,
+	onClick: () => null
 };
 
-module.exports = Slider;
+export default Slider;
