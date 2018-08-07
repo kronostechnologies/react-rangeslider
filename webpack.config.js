@@ -1,19 +1,21 @@
+const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
 	entry: {
 		slider: "./src/slider.js"
 	},
+	mode: "production",
 	output: {
-		path: 'bundle',
+		path: path.join(__dirname, '/bundle'),
 		filename: "[name].js",
 		library: "ReactRangeslider",
 		libraryTarget: "umd",
 		publicPath: '/bundle/',
-        umdNamedDefine: true
+		umdNamedDefine: true
 	},
 	module: {
-		loaders: [{
+		rules: [{
 			test: /\.js?$/,
 			loader: 'babel-loader',
 			exclude: /node_modules/
@@ -41,8 +43,6 @@ module.exports = {
 				// This has effect on the react lib size
 				"NODE_ENV": JSON.stringify("production")
 			}
-		}),
-		new webpack.optimize.DedupePlugin(),
-		new webpack.optimize.UglifyJsPlugin()
+		})
 	]
 };

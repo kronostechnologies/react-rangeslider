@@ -1,4 +1,5 @@
 # Directories to be ignored
 node_modules
 .idea/
+.vscode/
 bundle/kitchensink.js
