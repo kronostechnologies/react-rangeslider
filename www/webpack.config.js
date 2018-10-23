@@ -10,7 +10,7 @@ module.exports = {
 		filename: "[name].js"
 	},
 	resolve: {
-		modules: [path.resolve(__dirname, '../node_modules')]
+		modules: [path.resolve(__dirname, './node_modules')]
 	},
 	module: {
 		rules: [{
