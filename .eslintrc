@@ -22,6 +22,8 @@
             "ignoreUrls": true,
             "ignoreComments": false
         }],
-        "new-cap":0
+        "new-cap":0,
+        "react/jsx-filename-extension": 0,
+        "react/jsx-indent": [1, 4]
     }
 }

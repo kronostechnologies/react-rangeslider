@@ -48,10 +48,7 @@
   },
   "dependencies": {
     "classnames": "2.2.3",
-    "clone": "1.0.3",
-    "jsx-control-statements": "3.1.5",
-    "prop-types": "^15.6.2",
-    "react-bootstrap": "0.32.1"
+    "prop-types": "^15.6.2"
   },
   "peerDependencies": {
     "react": "^16.0.0",

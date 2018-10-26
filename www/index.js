@@ -1,118 +1,116 @@
-import ReactDOM from 'react-dom';
-import Slider from '../src/slider';
 import React from 'react';
-import clone from 'clone';
+import ReactDOM from 'react-dom';
+import {
+    Segment, Header, Container, Input, Divider, Label
+} from 'semantic-ui-react';
 
-import { PageHeader as Header, Panel, Label, Form, FormControl, ControlLabel } from 'react-bootstrap';
+import Slider from '../src/slider';
 
-// Bootstrap reference: https://react-bootstrap.github.io/components.html
+const SLIDER_NAMES = [
+    'large_slider_with_fill',
+    'large_slider_with_sticky_fill',
+    'small_slider_with_fill',
+    'small_slider_with_sticky_fill',
+];
 
 class KitchenSink extends React.Component {
-	constructor(props) {
-		super(props);
-		
-		this.state = {
-			selected_slider: 'large_slider_with_sticky_fill',
-			large_slider_with_fill: {
-				value: 465,
-				max: 1000,
-				min:0,
-				onChange: this.onChange.bind(this, "large_slider_with_fill"),
-			},
-			large_slider_with_sticky_fill: {
-				value: 355,
-				fill: 200,
-				max: 1000,
-				min: 0,
-				onChange: this.onChange.bind(this, "large_slider_with_sticky_fill"),
-				onHandleRelease: function(){},
-			},
-			small_slider_with_fill: {
-				value: 355,
-				max: 1000,
-				min: 0,
-				onChange: this.onChange.bind(this, "small_slider_with_fill"),
-			},
-			small_slider_with_sticky_fill: {
-				value: 355,
-				max: 1000,
-				fill: 200,
-				min: 0,
-				onChange: this.onChange.bind(this, "small_slider_with_sticky_fill"),
-			}
-		};
-	}
+    constructor(props) {
+        super(props);
 
-	getSlidersNames() {
-		return [
-			'large_slider_with_fill',
-			'large_slider_with_sticky_fill',
-			'small_slider_with_fill',
-			'small_slider_with_sticky_fill'
-		];
-	}
+        this.state = {
+            large_slider_with_fill: {
+                value: 465,
+                max: 1000,
+                min: 0,
+                onChange: this.onChange.bind(this, 'large_slider_with_fill'),
+                onHandleRelease: () => {
+                    console.log('onHandleRelease called.');
+                },
+            },
+            large_slider_with_sticky_fill: {
+                value: 355,
+                fill: 200,
+                max: 1000,
+                min: 0,
+                onChange: this.onChange.bind(this, 'large_slider_with_sticky_fill'),
+                onHandleRelease: () => {
+                    console.log('onHandleRelease called.');
+                },
+            },
+            small_slider_with_fill: {
+                value: 355,
+                max: 1000,
+                min: 0,
+                onChange: this.onChange.bind(this, 'small_slider_with_fill'),
+                onHandleRelease: () => {
+                    console.log('onHandleRelease called.');
+                },
+            },
+            small_slider_with_sticky_fill: {
+                value: 355,
+                max: 1000,
+                fill: 200,
+                min: 0,
+                onChange: this.onChange.bind(this, 'small_slider_with_sticky_fill'),
+                onHandleRelease: () => {
+                    console.log('onHandleRelease called.');
+                },
+            },
+        };
+    }
 
-	onChange(slider_name, e) {
-		let value = e;
-		let new_state = clone(this.state);
-		new_state[slider_name].value = e;
-		this.setState(new_state);
-	}
+    onChange(slider_name, e) {
+        console.log('onChange called.');
+        const new_state = Object.assign(this.state, {});
+        new_state[slider_name].value = e;
+        this.setState(new_state);
+    }
 
-	selectSlider(event) {
-		this.setState({ selected_slider: event.target.value });
-	}
+    editFill(event, slider) {
+        const obj = Object.assign(this.state, {});
+        obj[slider].fill = Number.parseInt(event.target.value, 10) || 0;
+        this.setState(obj);
+    }
 
-	editFill(event) {
-		const obj = clone(this.state);
-		obj[this.state.selected_slider].fill = event.target.value;
-		this.setState(obj)
-	}
-
-	render() {
-		return (
-			<div>
-				<Header>
-					Kronos technologies' implementation of React-RangeSlider
-				</Header>
-				original work: <a href="https://github.com/whoisandie/react-rangeslider">https://github.com/whoisandie/react-rangeslider</a>
-				<div style={{width: "900px", marginLeft: "300px", marginTop: "45px"}} >
-					<For each="slider" of={this.getSlidersNames()} index="i" >
-						<Panel header={slider} key={i}>
-							<div>
-								<Slider {...this.state[slider]}/>
-								<h3>Value: <Label bsStyle="success">{this.state[slider].value}</Label></h3>
-								<If condition={this.state[slider].fill}>
-									<h3>Fill: <Label bsStyle="success">{this.state[slider].fill}</Label></h3>
-								</If>
-							</div>
-						</Panel>
-					</For>
-				</div>
-				<Panel header="Edition" bsStyle="primary">
-						<ControlLabel>Fill edition</ControlLabel>
-						<FormControl componentClass="select" style={{ width: '400px' }} onChange={this.selectSlider} value={this.state.selected_slider}>
-							<For each="option" of={this.getSlidersNames()} index="i">
-								<If condition={this.state[option].fill}>
-									<option key={i} value={option}>{option}</option>
-								</If>
-							</For>
-						</FormControl>
-						<FormControl
-							style={{ width: '100px' }}
-							type="text"
-							onChange={this.editFill}
-							value={this.state[this.state.selected_slider].fill}
-						/>
-				</Panel>
-			</div>
-		);
-	}
+    render() {
+        return (
+            <Segment basic>
+                <Header as="h1">
+                    Kronos Technologies' implementation of React-RangeSlider
+                </Header>
+                original work: <a href="https://github.com/whoisandie/react-rangeslider">https://github.com/whoisandie/react-rangeslider</a>
+                <Divider hidden />
+                <Container>
+                    {SLIDER_NAMES.map(slider => (
+                        <Segment raised key={slider}>
+                            <Header as="h3">{slider.replace(/_/g, ' ')}</Header>
+                            <div>
+                                <Slider {...this.state[slider]} />
+                                <Label>Value:  {this.state[slider].value}</Label>
+                                <br />
+                                {this.state[slider].fill !== undefined && (
+                                    <React.Fragment>
+                                        <Label>
+                                            Fill:
+                                        </Label>
+                                        <Input
+                                            onChange={e => this.editFill(e, slider)}
+                                            value={this.state[slider].fill}
+                                        />
+                                    </React.Fragment>
+                                )}
+                            </div>
+                        </Segment>
+                    ))}
+                </Container>
+            </Segment>
+        );
+    }
 }
 
 (function(){
-	ReactDOM.render(
-		<KitchenSink />,
-		document.getElementById('mount')
-	);
+    ReactDOM.render(
+        <KitchenSink />,
+        document.getElementById('mount')
+    );
 })();
