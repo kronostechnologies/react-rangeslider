@@ -68,6 +68,10 @@ class Slider extends React.Component {
     }
 
     handleUpdate() {
+        if (!this.slider) {
+            return
+        }
+
         const { orientation } = this.props;
         const dimension = capitalize(constants.orientation[orientation].dimension);
         const sliderPos = findDOMNode(this.slider)['offset' + dimension];
